@@ -6,6 +6,7 @@ import com.kaarel.foodplanner.models.User;
 import com.kaarel.foodplanner.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers().stream()
                 .map(user -> UserDTO.builder()
@@ -50,6 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         User user = userService.getUserById(id);
         UserDTO userDTO = UserDTO.builder()

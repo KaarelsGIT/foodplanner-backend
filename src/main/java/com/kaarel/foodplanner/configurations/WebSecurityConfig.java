@@ -1,6 +1,5 @@
 package com.kaarel.foodplanner.configurations;
 
-
 import com.kaarel.foodplanner.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +25,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/recipes/**").hasAnyRole("EDITOR","ADMIN")
+                        .requestMatchers("/api/recipes/**").hasAnyRole("EDITOR", "ADMIN")
                         .requestMatchers("/api/menu/**").hasRole("ADMIN")
-                        .requestMatchers("/api/view/**").hasAnyRole("VIEWER","EDITOR","ADMIN")
+                        .requestMatchers("/api/view/**").hasAnyRole("VIEWER", "EDITOR", "ADMIN")
                         .anyRequest().authenticated()
-                )
-                .userDetailsService(userDetailsService);
+                );
         return http.build();
     }
 
@@ -41,7 +39,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
